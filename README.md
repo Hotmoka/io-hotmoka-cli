@@ -11,4 +11,4 @@ This project is meant to work for command-line interfaces using the
 
 <p align="center"><img width="100" src="pics/CC_license.png" alt="This documentation is licensed under a Creative Commons Attribution 4.0 International License"></p><p align="center">This document is licensed under a Creative Commons Attribution 4.0 International License.</p>
 
-<p align="center">Copyright 2023 by Fausto Spoto (fausto.spoto@hotmoka.io)</p>
+<p align="center">Copyright 2024 by Fausto Spoto (fausto.spoto@hotmoka.io)</p>

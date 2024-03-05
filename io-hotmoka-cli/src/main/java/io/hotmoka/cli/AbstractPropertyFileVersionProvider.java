@@ -24,4 +24,9 @@ import io.hotmoka.cli.internal.AbstractPropertyFileVersionProviderImpl;
  * instance, from the properties of a Maven POM file.
  */
 public abstract class AbstractPropertyFileVersionProvider extends AbstractPropertyFileVersionProviderImpl {
+
+	/**
+	 * Creates the provider.
+	 */
+	protected AbstractPropertyFileVersionProvider() {}
 }
