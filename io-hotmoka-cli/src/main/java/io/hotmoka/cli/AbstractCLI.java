@@ -16,15 +16,15 @@ limitations under the License.
 
 package io.hotmoka.cli;
 
-import io.hotmoka.cli.internal.AbstractToolImpl;
+import io.hotmoka.cli.internal.AbstractToolCLI;
 
 /**
- * A command-line tool. Subclasses specify arguments, options and execution.
+ * A command-line interface. Subclasses specify arguments, options and execution.
  */
-public abstract class AbstractTool extends AbstractToolImpl {
+public abstract class AbstractCLI extends AbstractToolCLI {
 
 	/**
 	 * Builds the tool.
 	 */
-	protected AbstractTool() {}
+	protected AbstractCLI() {}
 }

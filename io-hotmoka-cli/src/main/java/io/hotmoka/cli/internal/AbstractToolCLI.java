@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.function.Supplier;
 import java.util.logging.LogManager;
 
-import io.hotmoka.cli.AbstractTool;
+import io.hotmoka.cli.AbstractCLI;
 import io.hotmoka.cli.ResourceOpener;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -36,7 +36,7 @@ import picocli.CommandLine.Option;
 	},
 	showDefaultValues = true
 )
-public abstract class AbstractToolImpl {
+public abstract class AbstractToolCLI {
 
 	@Option(names = { "--version" }, versionHelp = true, description = "print version information and exit")
 	private boolean versionRequested;
@@ -44,7 +44,7 @@ public abstract class AbstractToolImpl {
 	/**
 	 * Builds the tool.
 	 */
-	protected AbstractToolImpl() {}
+	protected AbstractToolCLI() {}
 
 	/**
 	 * Entry point of a tool. This is typically called by the actual {@code main} method
@@ -53,7 +53,7 @@ public abstract class AbstractToolImpl {
 	 * @param tool the supplier of an object of the tool that will be run
 	 * @param args the command-line arguments passed to the tool
 	 */
-	protected static void main(Supplier<AbstractTool> tool, String[] args) {
+	protected static void main(Supplier<AbstractCLI> tool, String[] args) {
 		System.exit(tool.get().run(args));
 	}
 
