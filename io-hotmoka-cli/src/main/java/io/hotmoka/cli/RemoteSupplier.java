@@ -39,5 +39,5 @@ public interface RemoteSupplier<R extends Remote<E>, E extends Exception> {
 	 * @throws DeploymentException if the remote object's endpoints could not be deployed
 	 * @throws IOException if the remote object could not be created
 	 */
-	R get(URI uri, long timeout) throws IOException, DeploymentException;
+	R get(URI uri, int timeout) throws IOException, DeploymentException;
 }
