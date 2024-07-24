@@ -45,7 +45,7 @@ public abstract class AbstractRpcCommandImpl<R extends Remote<E>, E extends Exce
 	/**
 	 * The class of the exceptions thrown by the remote object if it is misbehaving.
 	 */
-	private final Class<E> commandExceptionClass;
+	private final Class<E> misbehavingExceptionClass;
 
 	/**
 	 * Creates the command.
@@ -53,7 +53,7 @@ public abstract class AbstractRpcCommandImpl<R extends Remote<E>, E extends Exce
 	 * @param commandExceptionClass the class of the exceptions thrown by the remote object if it is misbehaving
 	 */
 	protected AbstractRpcCommandImpl(Class<E> commandExceptionClass) {
-		this.commandExceptionClass = commandExceptionClass;
+		this.misbehavingExceptionClass = commandExceptionClass;
 	}
 
 	/**
@@ -98,7 +98,7 @@ public abstract class AbstractRpcCommandImpl<R extends Remote<E>, E extends Exce
 			throw new CommandException("Unexpected interruption while waiting for " + uri + "!", e);
 		}
 		catch (Exception e) {
-			if (commandExceptionClass.isAssignableFrom(e.getClass()))
+			if (misbehavingExceptionClass.isAssignableFrom(e.getClass()))
 				throw new CommandException("The remote service published at " + uri + " could not complete the operation correctly", e);
 			else
 				throw new CommandException("Unexpected exception: " + e.getMessage(), e);

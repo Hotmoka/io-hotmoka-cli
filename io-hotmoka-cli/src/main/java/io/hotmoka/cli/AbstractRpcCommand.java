@@ -30,9 +30,9 @@ public abstract class AbstractRpcCommand<R extends Remote<E>, E extends Exceptio
 	/**
 	 * Creates the command.
 	 * 
-	 * @param commandExceptionClass the class of the exceptions thrown by the remote object if it is misbehaving
+	 * @param misbehavingExceptionClass the class of the exceptions thrown by the remote object if it is misbehaving
 	 */
-	protected AbstractRpcCommand(Class<E> commandExceptionClass) {
-		super(commandExceptionClass);
+	protected AbstractRpcCommand(Class<E> misbehavingExceptionClass) {
+		super(misbehavingExceptionClass);
 	}
 }
