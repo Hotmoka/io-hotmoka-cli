@@ -22,6 +22,13 @@ package io.hotmoka.cli;
 public interface Row {
 
 	/**
+	 * Yields the number of columns of this row.
+	 * 
+	 * @return the number of columns of this row
+	 */
+	int numberOfColumns();
+
+	/**
 	 * Yields the given column element of this row.
 	 * 
 	 * @param index the index of the column, from 0 upwards

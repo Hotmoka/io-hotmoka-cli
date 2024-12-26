@@ -55,11 +55,10 @@ public abstract class TableImpl implements Table {
 	 * Creates an empty table, without rows, with just its header.
 	 * 
 	 * @param header the first row of this table, that gets added to it
-	 * @param columns the number of elements in the rows of this table
 	 * @param json true if and only if the print-out of the table must occur in JSON
 	 */
-	public TableImpl(Row header, int columns, boolean json) {
-		this.columns = columns;
+	public TableImpl(Row header, boolean json) {
+		this.columns = header.numberOfColumns();
 		this.slotsForColumn = new int[columns];
 		this.json = json;
 		add(header);

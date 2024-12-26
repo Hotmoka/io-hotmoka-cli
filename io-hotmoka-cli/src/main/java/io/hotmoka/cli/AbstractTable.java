@@ -27,10 +27,9 @@ public abstract class AbstractTable extends TableImpl {
 	 * Creates an empty table, without rows, with just its header.
 	 * 
 	 * @param header the first row of this table, that gets added to it
-	 * @param columns the number of elements in the rows of this table
 	 * @param json true if and only if the print-out of the table must occur in JSON
 	 */
-	protected AbstractTable(Row header, int columns, boolean json) {
-		super(header, columns, json);
+	protected AbstractTable(Row header, boolean json) {
+		super(header, json);
 	}
 }
