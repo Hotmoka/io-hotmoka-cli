@@ -16,7 +16,6 @@ limitations under the License.
 
 package io.hotmoka.cli.internal;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.concurrent.TimeoutException;
 
@@ -25,7 +24,6 @@ import io.hotmoka.cli.CommandException;
 import io.hotmoka.cli.RemoteSupplier;
 import io.hotmoka.cli.RpcCommandBody;
 import io.hotmoka.websockets.client.api.Remote;
-import jakarta.websocket.DeploymentException;
 import picocli.CommandLine.Option;
 
 /**
@@ -87,11 +85,8 @@ public abstract class AbstractRpcCommandImpl<R extends Remote<E>, E extends Exce
 		try (var remote = supplier.get(uri, timeout)) {
 			what.run(remote);
 		}
-		catch (DeploymentException | IOException e) {
-			throw new CommandException("Cannot contact the remote service! Are you sure that a remote service is actually published at " + uri + " and is accessible?", e);
-		}
 		catch (TimeoutException e) {
-			throw new CommandException("Timeout: I waited for " + timeout + "ms but the remote service didn't answer!", e);
+			throw new CommandException("Timeout: I waited for " + timeout + "ms but the remote service at " + uri + " didn't answer!", e);
 		}
 		catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
@@ -99,7 +94,7 @@ public abstract class AbstractRpcCommandImpl<R extends Remote<E>, E extends Exce
 		}
 		catch (Exception e) {
 			if (misbehavingExceptionClass.isAssignableFrom(e.getClass()))
-				throw new CommandException("The remote service published at " + uri + " could not complete the operation correctly", e);
+				throw new CommandException("The remote service is misbehaving: are you sure that it is actually published at " + uri + " and is accessible?", e);
 			else
 				throw new CommandException("Unexpected exception: " + e.getMessage(), e);
 		}

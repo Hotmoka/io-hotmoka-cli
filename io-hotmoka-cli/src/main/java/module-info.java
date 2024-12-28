@@ -21,9 +21,8 @@ module io.hotmoka.cli {
 	exports io.hotmoka.cli;
 	opens io.hotmoka.cli.internal to info.picocli; // for injecting CLI options and accessing the AbstractPropertyFileVersionProviderImpl
 
-	requires transitive io.hotmoka.websockets.client.api;
-	requires transitive jakarta.websocket.client;
 	requires transitive info.picocli;
+	requires io.hotmoka.websockets.client.api;
 	requires com.google.gson;
 	requires java.logging;
 }
