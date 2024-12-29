@@ -41,7 +41,7 @@ public abstract class CommandExceptionImpl extends Exception {
 	 * @param cause the cause
 	 */
 	protected CommandExceptionImpl(Throwable cause) {
-		this("", cause);
+		this(cause.getMessage() == null ? "" : cause.getMessage(), cause);
 	}
 
 	/**
