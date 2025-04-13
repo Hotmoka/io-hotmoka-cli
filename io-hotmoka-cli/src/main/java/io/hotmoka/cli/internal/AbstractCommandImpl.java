@@ -32,16 +32,8 @@ public abstract class AbstractCommandImpl implements Callable<Void> {
 
 	@Override
 	public final Void call() throws CommandException {
-		try {
-			execute();
-			return null;
-		}
-		catch (CommandException e) {
-			throw e;
-		}
-		catch (Exception t) {
-			throw new CommandException(t);
-		}
+		execute();
+		return null;
 	}
 
 	/**

@@ -92,11 +92,14 @@ public abstract class AbstractRpcCommandImpl<R extends Remote<E>, E extends Exce
 			Thread.currentThread().interrupt();
 			throw new CommandException("Unexpected interruption while waiting for " + uri + "!", e);
 		}
+		catch (CommandException e) {
+			throw e;
+		}
 		catch (Exception e) {
 			if (misbehavingExceptionClass.isAssignableFrom(e.getClass()))
-				throw new CommandException("The remote service is misbehaving: are you sure that it is actually published at " + uri + " and is accessible?", e);
+				throw new RuntimeException("The remote service is misbehaving: are you sure that it is actually published at " + uri + " and is accessible?", e);
 			else
-				throw new CommandException("Unexpected exception: " + e.getMessage(), e);
+				throw (RuntimeException) e;
 		}
 	}
 }
