@@ -39,6 +39,7 @@ public abstract class AbstractCommandImpl implements Callable<Void> {
 	/**
 	 * Executes the command.
 	 * 
+	 * @param out the output stream to use as standard output of the command
 	 * @throws CommandException if something erroneous must be logged and the user must be informed
 	 */
 	protected abstract void execute() throws CommandException;
