@@ -16,6 +16,8 @@ limitations under the License.
 
 package io.hotmoka.cli.internal;
 
+import java.io.IOException;
+import java.util.Scanner;
 import java.util.concurrent.Callable;
 
 import io.hotmoka.cli.CommandException;
@@ -43,4 +45,32 @@ public abstract class AbstractCommandImpl implements Callable<Void> {
 	 * @throws CommandException if something erroneous must be logged and the user must be informed
 	 */
 	protected abstract void execute() throws CommandException;
+
+	/**
+	 * Asks the user for confirmation.
+	 * 
+	 * @param message the message proposed to the user
+	 * @return true if and only if the user presses the key {@code Y}
+	 */
+	protected boolean answerIsYes(String message) {
+		System.out.print(message);
+
+		try (var keyboard = new Scanner(System.in)) {
+			return "Y".equals(keyboard.nextLine());
+		}
+	}
+
+	/**
+	 * Waits for the user to press the enter key.
+	 * 
+	 * @throws CommandException of the access to the standard input fails
+	 */
+	protected void waitForEnterKey() throws CommandException {
+		try {
+			System.in.read();
+		}
+		catch (IOException e) {
+			throw new CommandException("Error while waiting for an enter key press", e);
+		}
+	}
 }

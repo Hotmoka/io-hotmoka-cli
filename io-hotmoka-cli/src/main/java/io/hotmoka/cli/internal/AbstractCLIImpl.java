@@ -36,7 +36,7 @@ import picocli.CommandLine.Option;
 	},
 	showDefaultValues = true
 )
-public abstract class CLI {
+public abstract class AbstractCLIImpl {
 
 	@Option(names = { "--version" }, versionHelp = true, description = "print version information and exit")
 	private boolean versionRequested;
@@ -44,7 +44,7 @@ public abstract class CLI {
 	/**
 	 * Builds the tool.
 	 */
-	protected CLI() {}
+	protected AbstractCLIImpl() {}
 
 	/**
 	 * Entry point of a tool. This is typically called by the actual {@code main} method
@@ -55,17 +55,7 @@ public abstract class CLI {
 	 * @return the exit value that can be reported to the shell that ran this command, if any
 	 */
 	protected static int main(Supplier<AbstractCLI> tool, String[] args) {
-		return tool.get().run(args);
-	}
-
-	/**
-	 * Runs the tool with the given command-line arguments.
-	 * 
-	 * @param args the command-line arguments
-	 * @return the exit status of the execution
-	 */
-	public int run(String[] args) {
-		return new CommandLine(this)
+		return new CommandLine(tool.get())
 			.setExecutionExceptionHandler(new PrintExceptionMessageHandler())
 			.execute(args);
 	}

@@ -36,15 +36,6 @@ public abstract class CommandExceptionImpl extends Exception {
 	}
 
 	/**
-	 * Creates the exception, with an empty message and the given cause.
-	 * 
-	 * @param cause the cause
-	 */
-	protected CommandExceptionImpl(Throwable cause) {
-		this(cause.getMessage() == null ? "" : cause.getMessage(), cause);
-	}
-
-	/**
 	 * Creates the exception, with the given message.
 	 * 
 	 * @param message the message

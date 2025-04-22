@@ -30,22 +30,34 @@ public class PrintExceptionMessageHandler implements IExecutionExceptionHandler 
 
 	@Override
 	public int handleExecutionException(Exception e, CommandLine cmd, ParseResult parseResult) throws Exception {
-		Throwable cause = e;
-		if (cause.getCause() != null)
-			cause = cause.getCause();
+		String messageForUser;
+		Throwable cause;
 
-		var message = e.getMessage();
-		if (message.isEmpty())
-			message = cause.getClass().getName() + ": " + cause.getMessage();
+		if (e instanceof CommandException) {
+			messageForUser = e.getMessage();
 
-		if (e instanceof CommandException)
-			LOGGER.warning("command threw exception: " + message);
-		else
+			if ((cause = e.getCause()) != null) {
+				messageForUser += " [" + cause.getClass().getName() + ": " + cause.getMessage() + "]";
+				LOGGER.log(Level.WARNING, e.getMessage(), cause);
+			}
+			else
+				LOGGER.warning("command threw exception: " + messageForUser);
+		}
+		else {
+			messageForUser = e.getMessage();
+
+			if (messageForUser == null || messageForUser.isEmpty())
+				if ((cause = e.getCause()) != null)
+					messageForUser = cause.getClass().getName() + ": " + cause.getMessage();
+				else
+					messageForUser = "";
+
 			LOGGER.log(Level.SEVERE, "unexpected exception", e);
+		}
 
-		cmd.getErr().println(cmd.getColorScheme().errorText(message));
+		cmd.getErr().println(cmd.getColorScheme().errorText(messageForUser));
 
 		var mapper = cmd.getExitCodeExceptionMapper();
-		return mapper != null ? mapper.getExitCode(cause) : cmd.getCommandSpec().exitCodeOnExecutionException();
+		return mapper != null ? mapper.getExitCode(e) : cmd.getCommandSpec().exitCodeOnExecutionException();
 	}
 }

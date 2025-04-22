@@ -16,12 +16,12 @@ limitations under the License.
 
 package io.hotmoka.cli;
 
-import io.hotmoka.cli.internal.CLI;
+import io.hotmoka.cli.internal.AbstractCLIImpl;
 
 /**
  * A command-line interface. Subclasses specify arguments, options and execution.
  */
-public abstract class AbstractCLI extends CLI {
+public abstract class AbstractCLI extends AbstractCLIImpl {
 
 	/**
 	 * Builds the tool.
