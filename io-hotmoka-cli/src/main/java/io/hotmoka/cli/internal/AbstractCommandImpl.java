@@ -55,9 +55,10 @@ public abstract class AbstractCommandImpl implements Callable<Void> {
 	protected boolean answerIsYes(String message) {
 		System.out.print(message);
 
-		try (var keyboard = new Scanner(System.in)) {
-			return "Y".equals(keyboard.nextLine());
-		}
+		// we cannot close this, or otherwise next interactions with the keyboard will find a closed stream
+		@SuppressWarnings("resource")
+		var keyboard = new Scanner(System.in);
+		return "Y".equals(keyboard.nextLine());
 	}
 
 	/**

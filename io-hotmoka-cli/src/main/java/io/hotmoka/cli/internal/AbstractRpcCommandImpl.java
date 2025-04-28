@@ -90,7 +90,7 @@ public abstract class AbstractRpcCommandImpl<R extends Remote<E>, E extends Exce
 		}
 		catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
-			throw new CommandException("Unexpected interruption while waiting for " + uri + "!", e);
+			throw new CommandException("The execution of the command has been interrupted while waiting for " + uri + "!", e);
 		}
 		catch (CommandException e) {
 			throw e;
