@@ -16,11 +16,10 @@ limitations under the License.
 
 package io.hotmoka.cli;
 
-import java.io.IOException;
 import java.net.URI;
+import java.util.concurrent.TimeoutException;
 
 import io.hotmoka.websockets.client.api.Remote;
-import jakarta.websocket.DeploymentException;
 
 /**
  * A supplier of a remote object.
@@ -36,8 +35,9 @@ public interface RemoteSupplier<R extends Remote<E>, E extends Exception> {
 	 * @param uri the uri where the remote service is published
 	 * @param timeout the threshold, in milliseconds, after which Rpc calls will timeout
 	 * @return the remote
-	 * @throws DeploymentException if the remote object's endpoints could not be deployed
-	 * @throws IOException if the remote object could not be created
+	 * @throws TimeoutException if the creation of the remote timeouts
+	 * @throws InterruptedException if the current thread has been interrupted
+	 * @throws E if the creation could not be performed correctly
 	 */
-	R get(URI uri, int timeout) throws IOException, DeploymentException;
+	R get(URI uri, int timeout) throws E, TimeoutException, InterruptedException;
 }

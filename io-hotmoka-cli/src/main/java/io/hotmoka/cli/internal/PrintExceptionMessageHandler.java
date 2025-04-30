@@ -30,23 +30,34 @@ public class PrintExceptionMessageHandler implements IExecutionExceptionHandler 
 
 	@Override
 	public int handleExecutionException(Exception e, CommandLine cmd, ParseResult parseResult) throws Exception {
+		String messageForUser;
+		Throwable cause;
+
 		if (e instanceof CommandException) {
-			Throwable cause = e;
-			if (cause.getCause() != null)
-				cause = cause.getCause();
+			messageForUser = e.getMessage();
 
-			LOGGER.log(Level.SEVERE, "command threw exception", cause);
-
-			var message = e.getMessage();
-			if (message.isEmpty())
-				cmd.getErr().println(cmd.getColorScheme().errorText(cause.getClass().getName() + ": " + cause.getMessage()));
+			if ((cause = e.getCause()) != null) {
+				messageForUser += " [" + cause.getClass().getName() + ": " + cause.getMessage() + "]";
+				LOGGER.log(Level.WARNING, e.getMessage(), cause);
+			}
 			else
-				cmd.getErr().println(cmd.getColorScheme().errorText(message));
-
-			var mapper = cmd.getExitCodeExceptionMapper();
-			return mapper != null ? mapper.getExitCode(cause) : cmd.getCommandSpec().exitCodeOnExecutionException();
+				LOGGER.warning("command threw exception: " + messageForUser);
 		}
-		else
-			throw e;
-    }
+		else {
+			messageForUser = e.getMessage();
+
+			if (messageForUser == null || messageForUser.isEmpty())
+				if ((cause = e.getCause()) != null)
+					messageForUser = cause.getClass().getName() + ": " + cause.getMessage();
+				else
+					messageForUser = "";
+
+			LOGGER.log(Level.SEVERE, "unexpected exception", e);
+		}
+
+		cmd.getErr().println(cmd.getColorScheme().errorText(messageForUser));
+
+		var mapper = cmd.getExitCodeExceptionMapper();
+		return mapper != null ? mapper.getExitCode(e) : cmd.getCommandSpec().exitCodeOnExecutionException();
+	}
 }

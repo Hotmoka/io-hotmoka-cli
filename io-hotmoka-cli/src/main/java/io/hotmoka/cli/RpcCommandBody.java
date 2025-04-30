@@ -34,8 +34,10 @@ public interface RpcCommandBody<R extends Remote<E>, E extends Exception> {
 	 * @param remote the remote object
 	 * @throws TimeoutException if the command timeouts
 	 * @throws InterruptedException if the command was interrupted while waiting
-	 * @throws E if the remote object could not complete the operation
-	 * @throws CommandException if something erroneous must be logged and the user must be informed
+	 * @throws E if the remote object could not complete the operation; throw this if there is
+	 *           a bug or misbehavior in the operation
+	 * @throws CommandException if something erroneous must be logged and the user must be informed;
+	 *                          throw this is the user provided a wrong argument to the command
 	 */
-	void run(R remote) throws TimeoutException, InterruptedException, E, CommandException;
+	void run(R remote) throws TimeoutException, InterruptedException, CommandException, E;
 }
