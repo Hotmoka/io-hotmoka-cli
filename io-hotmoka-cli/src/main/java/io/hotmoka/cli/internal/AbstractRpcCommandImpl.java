@@ -34,7 +34,7 @@ import picocli.CommandLine.Option;
  */
 public abstract class AbstractRpcCommandImpl<R extends Remote<E>, E extends Exception> extends AbstractCommand {
 
-	@Option(names = "--timeout", paramLabel = "<milliseconds>", description = "the timeout of the connection", defaultValue = "20000")
+	@Option(names = "--timeout", paramLabel = "<milliseconds>", description = "the timeout of the connection", defaultValue = "90000")
 	private int timeout;
 
 	@Option(names = "--json", description = "print the output in JSON", defaultValue = "false")
