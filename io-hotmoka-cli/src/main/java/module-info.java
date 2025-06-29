@@ -25,4 +25,5 @@ module io.hotmoka.cli {
 	requires io.hotmoka.websockets.client.api;
 	requires com.google.gson;
 	requires java.logging;
+	requires jakarta.websocket.client;
 }

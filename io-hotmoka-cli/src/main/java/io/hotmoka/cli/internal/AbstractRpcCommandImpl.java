@@ -21,18 +21,18 @@ import java.util.concurrent.TimeoutException;
 
 import io.hotmoka.cli.AbstractCommand;
 import io.hotmoka.cli.CommandException;
-import io.hotmoka.cli.RemoteSupplier;
 import io.hotmoka.cli.RpcCommandBody;
+import io.hotmoka.websockets.api.FailedDeploymentException;
 import io.hotmoka.websockets.client.api.Remote;
+import io.hotmoka.websockets.client.api.RemoteSupplier;
 import picocli.CommandLine.Option;
 
 /**
  * Shared code among the command that connect to a remote object and perform Rpc calls to its API.
  * 
  * @param <R> the type of the remote object executing the Rpc calls
- * @param <E> the type of the exceptions thrown by the remote object if it is misbehaving
  */
-public abstract class AbstractRpcCommandImpl<R extends Remote<E>, E extends Exception> extends AbstractCommand {
+public abstract class AbstractRpcCommandImpl<R extends Remote> extends AbstractCommand {
 
 	@Option(names = "--timeout", paramLabel = "<milliseconds>", description = "the timeout of the connection", defaultValue = "90000")
 	private int timeout;
@@ -41,17 +41,9 @@ public abstract class AbstractRpcCommandImpl<R extends Remote<E>, E extends Exce
 	private boolean json;
 
 	/**
-	 * The class of the exceptions thrown by the remote object if it is misbehaving.
-	 */
-	private final Class<E> misbehavingExceptionClass;
-
-	/**
 	 * Creates the command.
-	 * 
-	 * @param commandExceptionClass the class of the exceptions thrown by the remote object if it is misbehaving
 	 */
-	protected AbstractRpcCommandImpl(Class<E> commandExceptionClass) {
-		this.misbehavingExceptionClass = commandExceptionClass;
+	protected AbstractRpcCommandImpl() {
 	}
 
 	/**
@@ -81,7 +73,7 @@ public abstract class AbstractRpcCommandImpl<R extends Remote<E>, E extends Exce
 	 * @param uri the uri where the remote service can be contacted
 	 * @throws CommandException if something erroneous must be logged and the user must be informed
 	 */
-	protected void execute(RemoteSupplier<R, E> supplier, RpcCommandBody<R, E> what, URI uri) throws CommandException {
+	protected void execute(RemoteSupplier<R> supplier, RpcCommandBody<R> what, URI uri) throws CommandException {
 		try (var remote = supplier.get(uri, timeout)) {
 			what.run(remote);
 		}
@@ -95,11 +87,8 @@ public abstract class AbstractRpcCommandImpl<R extends Remote<E>, E extends Exce
 		catch (CommandException e) {
 			throw e;
 		}
-		catch (Exception e) {
-			if (misbehavingExceptionClass.isAssignableFrom(e.getClass()))
-				throw new RuntimeException("The remote service is misbehaving: are you sure that it is actually published at " + uri + " and that it is initialized and accessible?", e);
-			else
-				throw (RuntimeException) e;
+		catch (FailedDeploymentException e) {
+			throw new CommandException("Connection failed: are you sure that the remote service is actually published at " + uri + " and that it is initialized and accessible?", e);
 		}
 	}
 }

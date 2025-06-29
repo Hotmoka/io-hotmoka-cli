@@ -16,12 +16,12 @@ limitations under the License.
 
 package io.hotmoka.cli;
 
-import io.hotmoka.cli.internal.CommandExceptionImpl;
+import java.util.Objects;
 
 /**
  * An exception thrown during the execution of a CLI command.
  */
-public class CommandException extends CommandExceptionImpl {
+public class CommandException extends Exception {
 
 	private static final long serialVersionUID = 2066756038127592236L;
 
@@ -31,7 +31,7 @@ public class CommandException extends CommandExceptionImpl {
 	 * @param message the message; this gets reported on the shell to the user of the command and gets logged
 	 */
 	public CommandException(String message) {
-		super(message);
+		super(Objects.requireNonNull(message));
 	}
 
 	/**
@@ -41,6 +41,6 @@ public class CommandException extends CommandExceptionImpl {
 	 * @param cause the cause; this gets logged and its type and message reported to the user of the command
 	 */
 	public CommandException(String message, Throwable cause) {
-		super(message, cause);
+		super(Objects.requireNonNull(message), Objects.requireNonNull(cause));
 	}
 }

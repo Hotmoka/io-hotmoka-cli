@@ -23,16 +23,12 @@ import io.hotmoka.websockets.client.api.Remote;
  * Shared code among the command that connect to a remote object and perform Rpc calls to its API.
  * 
  * @param <R> the type of the remote object executing the Rpc calls
- * @param <E> the type of the exceptions thrown by the remote object if it is misbehaving
  */
-public abstract class AbstractRpcCommand<R extends Remote<E>, E extends Exception> extends AbstractRpcCommandImpl<R, E> {
+public abstract class AbstractRpcCommand<R extends Remote> extends AbstractRpcCommandImpl<R> {
 
 	/**
 	 * Creates the command.
-	 * 
-	 * @param misbehavingExceptionClass the class of the exceptions thrown by the remote object if it is misbehaving
 	 */
-	protected AbstractRpcCommand(Class<E> misbehavingExceptionClass) {
-		super(misbehavingExceptionClass);
+	protected AbstractRpcCommand() {
 	}
 }
