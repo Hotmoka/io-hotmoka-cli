@@ -37,23 +37,10 @@ public abstract class AbstractRpcCommandImpl<R extends Remote> extends AbstractC
 	@Option(names = "--timeout", paramLabel = "<milliseconds>", description = "the timeout of the connection", defaultValue = "90000")
 	private int timeout;
 
-	@Option(names = "--json", description = "print the output in JSON", defaultValue = "false")
-	private boolean json;
-
 	/**
 	 * Creates the command.
 	 */
-	protected AbstractRpcCommandImpl() {
-	}
-
-	/**
-	 * Determines if the output must be reported in JSON format.
-	 * 
-	 * @return true if and only if that condition holds
-	 */
-	protected final boolean json() {
-		return json;
-	}
+	protected AbstractRpcCommandImpl() {}
 
 	/**
 	 * Yields the timeout of the connection, in milliseconds.
