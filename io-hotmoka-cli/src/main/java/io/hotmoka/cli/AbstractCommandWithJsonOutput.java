@@ -1,5 +1,5 @@
 /*
-Copyright 2023 Fausto Spoto
+Copyright 2025 Fausto Spoto
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,17 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-/**
- * This module implements utility classes for the construction of command-line interfaces.
- */
-module io.hotmoka.cli {
-	exports io.hotmoka.cli;
-	opens io.hotmoka.cli.internal to info.picocli; // for injecting CLI options and accessing the AbstractPropertyFileVersionProviderImpl
+package io.hotmoka.cli;
 
-	requires transitive info.picocli;
-	requires io.hotmoka.websockets.client.api;
-	requires io.hotmoka.websockets.beans.api;
-	requires com.google.gson;
-	requires java.logging;
-	requires jakarta.websocket.client;
+import io.hotmoka.cli.internal.AbstractCommandWithJsonOutputImpl;
+
+/**
+ * Shared code among the commands that can provide their output in JSON format, if required.
+ */
+public abstract class AbstractCommandWithJsonOutput extends AbstractCommandWithJsonOutputImpl {
 }

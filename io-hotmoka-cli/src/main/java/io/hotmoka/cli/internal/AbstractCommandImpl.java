@@ -17,10 +17,13 @@ limitations under the License.
 package io.hotmoka.cli.internal;
 
 import java.io.IOException;
+import java.net.URI;
+import java.nio.file.Path;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
 
 import io.hotmoka.cli.CommandException;
+import picocli.CommandLine.Help.Ansi;
 
 /**
  * Partial implementation of all commands of a CLI tool.
@@ -73,5 +76,45 @@ public abstract class AbstractCommandImpl implements Callable<Void> {
 		catch (IOException e) {
 			throw new CommandException("Error while waiting for an enter key press", e);
 		}
+	}
+
+	/**
+	 * Styles the given URI in URI style.
+	 * 
+	 * @param uri the URI to style
+	 * @return the styled URI text
+	 */
+	protected static String asUri(URI uri) {
+		return Ansi.AUTO.string("@|blue " + uri + "|@");
+	}
+
+	/**
+	 * Styles the given path in path style.
+	 * 
+	 * @param path the path
+	 * @return the styled path
+	 */
+	protected static String asPath(Path path) {
+		return Ansi.AUTO.string("@|bold,fg(1;3;1) \"" + path + "\"|@");
+	}
+
+	/**
+	 * Styles the given string as for the user interaction style.
+	 * 
+	 * @param text the text to style
+	 * @return the styled text
+	 */
+	protected static String asInteraction(String text) {
+		return Ansi.AUTO.string("@|bold,red " + text + "|@");
+	}
+
+	/**
+	 * Styles the given string as for the command style.
+	 * 
+	 * @param text the text to style
+	 * @return the styled text
+	 */
+	protected static String asCommand(String text) {
+		return Ansi.AUTO.string("@|bold " + text + "|@");
 	}
 }
