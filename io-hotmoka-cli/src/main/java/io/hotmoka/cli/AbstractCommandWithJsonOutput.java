@@ -22,4 +22,10 @@ import io.hotmoka.cli.internal.AbstractCommandWithJsonOutputImpl;
  * Shared code among the commands that can provide their output in JSON format, if required.
  */
 public abstract class AbstractCommandWithJsonOutput extends AbstractCommandWithJsonOutputImpl {
+
+	/**
+	 * Builds the command.
+	 */
+	protected AbstractCommandWithJsonOutput() {
+	}
 }

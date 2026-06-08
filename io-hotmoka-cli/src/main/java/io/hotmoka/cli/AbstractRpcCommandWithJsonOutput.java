@@ -26,4 +26,10 @@ import io.hotmoka.websockets.client.api.Remote;
  * @param <R> the type of the remote object executing the Rpc calls
  */
 public abstract class AbstractRpcCommandWithJsonOutput<R extends Remote> extends AbstractRpcCommandWithJsonOutputImpl<R> {
+
+	/**
+	 * Builds the command.
+	 */
+	protected AbstractRpcCommandWithJsonOutput() {
+	}
 }
